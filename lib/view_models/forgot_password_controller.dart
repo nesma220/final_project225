@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 
-class ForgotPasswordController extends GetxController {
-  // Observable variables
-  var selectedOption = ''.obs;
 
-  // Functions to update state
+class ForgotPasswordController extends GetxController {
+  var selectedOption = "".obs;
+
   void updateSelectedOption(String option) {
     selectedOption.value = option;
   }

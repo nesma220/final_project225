@@ -1,5 +1,7 @@
 import 'package:final_project/cor/constants.dart';
+import 'package:final_project/ui/screens/login_screen_ready.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -116,12 +118,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   }
                 },
                 style: Constants.elevatedButton(),
-                child: Text(
-                  _currentPage == _pages.length - 1 ? "Get Started" : "Next",
-                  style: const TextStyle(
-                    fontSize: 18, // حجم النص داخل الزر
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                child: TextButton(
+                  onPressed: () {
+                    Get.to(LoginScreenReady());
+                  },
+                  child: Text(
+                    _currentPage == _pages.length - 1 ? "Get Started" : "Next",
+                    style: const TextStyle(
+                      fontSize: 18, // حجم النص داخل الزر
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

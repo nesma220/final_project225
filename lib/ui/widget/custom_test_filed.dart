@@ -42,3 +42,30 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
+
+
+
+
+class OtpInputField extends StatelessWidget {
+  final int index;
+
+  const OtpInputField({Key? key, required this.index}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 50,
+      child: TextField(
+        maxLength: 1,
+        textAlign: TextAlign.center,
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          counterText: "",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
+  }
+}

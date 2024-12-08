@@ -1,3 +1,4 @@
+import 'package:final_project/ui/screens/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -68,56 +69,60 @@ class LoginScreenReady extends StatelessWidget {
               const SizedBox(height: 20),
               // Password TextField
               Obx(() => TextField(
-                obscureText: !controller.isPasswordVisiblelogin.value,
-                onChanged: (value) {
-                  controller.passwordlogin.value = value;
-                },
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.isPasswordVisiblelogin.value
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      color: Colors.grey,
+                    obscureText: !controller.isPasswordVisiblelogin.value,
+                    onChanged: (value) {
+                      controller.passwordlogin.value = value;
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          controller.isPasswordVisiblelogin.value
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: Colors.grey,
+                        ),
+                        onPressed: controller.togglePasswordVisibility,
+                      ),
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey[100],
                     ),
-                    onPressed: controller.togglePasswordVisibility,
-                  ),
-                  hintText: "Password",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                ),
-              )),
+                  )),
               const SizedBox(height: 20),
               // Remember me and Forgot password
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Obx(() => Row(
-                    children: [
-                      Checkbox(
-                        value: controller.rememberMelogin.value,
-                        onChanged: (value) {
-                          controller.toggleRememberMe(value);
-                        },
-                        activeColor: const Color(0xFF7210FF),
-                      ),
-                      const Text("Remember me"),
-                    ],
-                  )),
+                        children: [
+                          Checkbox(
+                            value: controller.rememberMelogin.value,
+                            onChanged: (value) {
+                              controller.toggleRememberMe(value);
+                            },
+                            activeColor: const Color(0xFF7210FF),
+                          ),
+                          const Text("Remember me"),
+                        ],
+                      )),
                   GestureDetector(
-                    onTap: () {},
-                    child: const Text(
-                      "Forgot password?",
-                      style: TextStyle(
-                        color: Color(0xFF7210FF),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                      onTap: () {},
+                      child: TextButton(
+                        onPressed: () {
+                          Get.to(ForgotPasswordScreen());
+                        },
+                        child: const Text(
+                          "Forgot password?",
+                          style: TextStyle(
+                            color: Color(0xFF7210FF),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )),
                 ],
               ),
               const SizedBox(height: 20),
@@ -160,7 +165,8 @@ class LoginScreenReady extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SocialMediaButton(icon: Icons.facebook, color: Colors.blue),
-                  SocialMediaButton(icon: Icons.g_mobiledata, color: Colors.red),
+                  SocialMediaButton(
+                      icon: Icons.g_mobiledata, color: Colors.red),
                   SocialMediaButton(icon: Icons.apple, color: Colors.black),
                 ],
               ),
