@@ -1,7 +1,6 @@
 import 'package:final_project/ui/screens/verification_screen.dart';
 import 'package:final_project/view_models/forgot_password_controller.dart';
 import 'package:final_project/ui/widget/btn.dart';
-import 'package:final_project/ui/widget/custom_test_filed.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX package
 // Import your controller
@@ -77,11 +76,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                             : Colors.grey[300]!,
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(Icons.sms, color: Colors.purple),
-                        const SizedBox(width: 10),
-                        const Text("via SMS: +1 111 *****99"),
+                        SizedBox(width: 10),
+                        Text("via SMS: +1 111 *****99"),
                       ],
                     ),
                   ),

@@ -49,7 +49,7 @@ class CustomTextField extends StatelessWidget {
 class OtpInputField extends StatelessWidget {
   final int index;
 
-  const OtpInputField({Key? key, required this.index}) : super(key: key);
+  const OtpInputField({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {

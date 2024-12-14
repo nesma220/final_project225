@@ -1,4 +1,5 @@
-import 'package:final_project/ui/screens/home_screen.dart';
+
+import 'package:final_project/ui/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,8 @@ class CreateNewPasswordScreen extends StatelessWidget {
   final RxBool rememberMe = false.obs;
   final RxBool isPasswordVisible = false.obs;
   final RxBool isConfirmPasswordVisible = false.obs;
+
+  CreateNewPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -151,19 +154,19 @@ class CreateNewPasswordScreen extends StatelessWidget {
             children: [
               Icon(Icons.check_circle, color: Colors.purple, size: 80),
               SizedBox(height: 20),
-              const Text(
+              Text(
                 "Congratulations!",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: Colors.black),
               ),
-              const SizedBox(height: 10),
-              const Text(
+              SizedBox(height: 10),
+              Text(
                 "Your account is ready to use. You will be redirected to the main page in a few seconds.",
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.purple),
               ),

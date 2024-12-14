@@ -11,7 +11,7 @@ class VerificationController extends GetxController {
 
   void startTimer() async {
     for (int i = 60; i >= 0; i--) {
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       timer.value = i;
     }
   }

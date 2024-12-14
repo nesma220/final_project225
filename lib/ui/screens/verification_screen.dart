@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 class VerificationScreen extends StatelessWidget {
   final VerificationController controller = Get.put(VerificationController());
 
+   VerificationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // استلام الخيار من الصفحة الأولى
