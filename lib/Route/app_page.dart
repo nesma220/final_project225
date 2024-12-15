@@ -11,6 +11,7 @@ import 'package:final_project/ui/screens/login_screen_ready.dart';
 import 'package:final_project/ui/screens/notification_screen.dart';
 import 'package:final_project/ui/screens/onbording_screen.dart';
 import 'package:final_project/ui/screens/profile_screen.dart';
+import 'package:final_project/ui/screens/search_page.dart';
 import 'package:final_project/ui/screens/signIn.dart';
 import 'package:final_project/ui/screens/splash_screen.dart';
 import 'package:final_project/ui/screens/verification_screen.dart';
@@ -35,4 +36,5 @@ List<GetPage> appPage = [
   GetPage(name: AppRoute.calendarToday, page: () => const CalendarToday()),
   GetPage(name: AppRoute.allServicesScreen, page: () => AllServicesScreen()),
     GetPage(name: AppRoute.notificationScreen, page: () => NotificationScreen()),
+     GetPage(name: AppRoute.searchScreen, page: () => SearchPage()),
 ];

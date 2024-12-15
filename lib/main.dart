@@ -1,6 +1,5 @@
 import 'package:final_project/Route/app_page.dart';
 import 'package:final_project/Route/app_route.dart';
-import 'package:final_project/ui/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,11 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return  GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // initialRoute: AppRoute.home,
-      // getPages: appPage,
-      home: HomeScreen(),
+       initialRoute: AppRoute.home,
+      getPages: appPage,
+      //home: HomeScreen(),
     );
   }
 }

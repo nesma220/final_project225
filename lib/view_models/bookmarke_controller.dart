@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 
-import 'package:get/get.dart';
-
 class BookmarkController extends GetxController {
   var selectedCategory = 'All'.obs;
 
@@ -41,7 +39,18 @@ class BookmarkController extends GetxController {
     },
   ].obs;
 
+  // List of bookmarked service IDs
+  var bookmarkedServices = <int>[].obs;
+
+  // Method to remove service by ID
   void removeService(int id) {
     services.removeWhere((service) => service['id'] == id);
+    bookmarkedServices
+        .remove(id); // Remove the service ID from the bookmarked list
+  }
+
+  // Method to add a service to bookmarks
+  void addBookmark(int serviceId) {
+    bookmarkedServices.add(serviceId);
   }
 }

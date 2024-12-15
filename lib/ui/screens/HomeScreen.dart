@@ -2,11 +2,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:final_project/ui/screens/allservices_screen%20.dart';
 import 'package:final_project/ui/widget/build_services.dart';
 import 'package:final_project/ui/widget/container.dart';
+import 'package:final_project/view_models/search_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final SearchControllerrr searchController = Get.put(SearchControllerrr());
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,33 @@ class HomeScreen extends StatelessWidget {
                       }),
                 ],
               ),
+
+              SizedBox(height: 26),
+
+// Search Bar
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextField(
+                  onTap: () {
+                    // الانتقال إلى صفحة البحث عند الضغط على الشريط
+                    Get.toNamed('/searchScreen');
+                  },
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    border: InputBorder.none,
+                    prefixIcon: Icon(Icons.search, color: Colors.grey),
+                    suffixIcon: Icon(Icons.filter_list, color: Colors.purple),
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 26),
+
               // Special Offers Carousel
 
               Row(
