@@ -6,27 +6,32 @@ class CustomTextField extends StatelessWidget {
   final Color? borderColor;
   final ValueChanged<String>? onchanged;
   final TextInputType? type;
-
-  const CustomTextField({
+  Function(dynamic value)? validator;
+   CustomTextField({
     super.key,
     required this.hintText,
     this.icon,
     this.borderColor,
     this.onchanged,
     this.type,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      
       onChanged: onchanged,
       keyboardType: type,
+      
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: icon != null ? Icon(icon) : null,
         filled: true,
         fillColor: Colors.grey[200],
+        
         border: OutlineInputBorder(
+          
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
@@ -42,9 +47,6 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class OtpInputField extends StatelessWidget {
   final int index;

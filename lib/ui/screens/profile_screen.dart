@@ -1,22 +1,27 @@
-import 'package:final_project/view_models/fill_profile_controller.dart';
-import 'package:final_project/ui/widget/custom_test_filed.dart';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:final_project/view_models/fill_profile_controller.dart';
+import 'package:final_project/ui/widget/custom_test_filed.dart';
 
 class FillProfileScreen extends StatelessWidget {
   const FillProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final FillProfileController controller = Get.put(FillProfileController());
+
+    Future<void> pickImage() async {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        final imageBytes = await pickedFile.readAsBytes();
+        controller.updateProfileImage(imageBytes);
+      }
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
-        ),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -32,33 +37,43 @@ class FillProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // Profile Picture
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey[200],
-                    child:
-                        const Icon(Icons.person, size: 50, color: Colors.grey),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF7210FF),
-                        shape: BoxShape.circle,
-                      ),
-                      padding: const EdgeInsets.all(6),
-                      child:
-                          const Icon(Icons.edit, color: Colors.white, size: 18),
+              // الصورة الشخصية
+              Obx(() {
+                return Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.grey[200],
+                      backgroundImage: controller.profileImage.value != null
+                          ? MemoryImage(controller.profileImage.value!)
+                          : null,
+                      child: controller.profileImage.value == null
+                          ? const Icon(Icons.person,
+                              size: 50, color: Colors.grey)
+                          : null,
                     ),
-                  ),
-                ],
-              ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: pickImage,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF7210FF),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(6),
+                          child: const Icon(Icons.edit,
+                              color: Colors.white, size: 18),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
               const SizedBox(height: 30),
 
-              // Full Name Field
+              // الحقول النصية
               CustomTextField(
                 hintText: "Full Name",
                 icon: null,
@@ -66,8 +81,6 @@ class FillProfileScreen extends StatelessWidget {
                 onchanged: controller.updateFullName,
               ),
               const SizedBox(height: 10),
-
-              // Nickname Field
               CustomTextField(
                 hintText: "Nickname",
                 icon: null,
@@ -75,8 +88,6 @@ class FillProfileScreen extends StatelessWidget {
                 onchanged: controller.updateNickname,
               ),
               const SizedBox(height: 10),
-
-              // Date of Birth Field
               CustomTextField(
                 hintText: "Date of Birth",
                 type: TextInputType.datetime,
@@ -84,8 +95,6 @@ class FillProfileScreen extends StatelessWidget {
                 onchanged: controller.updateDateOfBirth,
               ),
               const SizedBox(height: 10),
-
-              // Email Field
               CustomTextField(
                 hintText: "Email",
                 icon: Icons.email_outlined,
@@ -94,7 +103,6 @@ class FillProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Phone Number Field
               Row(
                 children: [
                   Container(
@@ -109,10 +117,7 @@ class FillProfileScreen extends StatelessWidget {
                       children: [
                         Icon(Icons.flag, size: 16),
                         SizedBox(width: 5),
-                        Text(
-                          "+1",
-                          style: TextStyle(fontSize: 16),
-                        ),
+                        Text("+1", style: TextStyle(fontSize: 16)),
                       ],
                     ),
                   ),
@@ -128,8 +133,6 @@ class FillProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-
-              // Address Field
               CustomTextField(
                 hintText: "Address",
                 icon: Icons.location_on_outlined,
@@ -138,13 +141,11 @@ class FillProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Continue Button
+              // الزر
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    controller.submitProfile(); // الاستدعاء مع التحقق
-                  },
+                  onPressed: controller.submitProfile,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF7210FF),
                     padding: const EdgeInsets.symmetric(vertical: 16),
