@@ -1,38 +1,35 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SearchControllerrr extends GetxController {
 
-  var searchText = ''.obs;
-  var searchResults = <String>[].obs;
+  RxList<Map<String, dynamic>> services = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> filteredServices = <Map<String, dynamic>>[].obs;
 
-  final List<String> allItems = [
-    'Cleaning',
-    'Repairing',
-    'Painting',
-    'Laundry',
-    'Plumbing',
-    'Shifting',
-    'House Cleaning',
-    'Floor Cleaning',
-    'Washing Clothes',
-    'Bathroom Cleaning',
-  ];
+  @override
+  void onInit() {
+    super.onInit();
+    loadServices();
+  }
 
-  void searchItems(String query) {
-    searchText.value = query;
+  void loadServices() {
+    // Load all services into `services` (from API, local storage, etc.)
+    services.value = [
+      {'id': 1, 'name': 'Cleaning', 'price': '50\$', 'rating': 4.5, 'reviews': '20', 'image': 'assets/cleaning.jpg'},
+      {'id': 2, 'name': 'Plumbing', 'price': '30\$', 'rating': 4.0, 'reviews': '10', 'image': 'assets/plumbing.jpg'},
+      // More services
+    ];
+    filteredServices.value = services;
+  }
+
+  void filterServices(String query) {
     if (query.isEmpty) {
-      searchResults.clear();
+      filteredServices.value = services;
     } else {
-      searchResults.value = allItems
-          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+      filteredServices.value = services
+          .where((service) =>
+              service['name'].toString().toLowerCase().contains(query.toLowerCase()))
           .toList();
     }
   }
-
-  void clearSearch() {
-    searchText.value = '';
-    searchResults.clear();
-  }
 }
-
-

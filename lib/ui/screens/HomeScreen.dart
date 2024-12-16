@@ -1,7 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:final_project/ui/screens/allservices_screen%20.dart';
 import 'package:final_project/ui/widget/build_services.dart';
 import 'package:final_project/ui/widget/container.dart';
+import 'package:final_project/ui/widget/service_item.dart';
+import 'package:final_project/view_models/bookmarke_controller.dart';
 import 'package:final_project/view_models/search_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final SearchControllerrr searchController = Get.put(SearchControllerrr());
+  final BookmarkController bookmarkController = Get.put(BookmarkController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +40,18 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                   IconButton(
-                      icon: const Icon(Icons.bookmark_outline,
-                          color: Colors.black),
-                      onPressed: () {
-                        Get.toNamed("/bookmarkScreen");
-                      }),
+                    icon:
+                        const Icon(Icons.bookmark_outline, color: Colors.black),
+                    onPressed: () {
+                      Get.toNamed("/bookmarkScreen");
+                    },
+                  ),
                 ],
               ),
 
-              SizedBox(height: 26),
+              const SizedBox(height: 26),
 
-// Search Bar
+              // Search Bar
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
@@ -57,15 +60,13 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: TextField(
                   onTap: () {
-                    // الانتقال إلى صفحة البحث عند الضغط على الشريط
                     Get.toNamed('/searchScreen');
                   },
                   readOnly: true,
-                  decoration: InputDecoration(
-                    hintText: 'Search...',
+                  decoration: const InputDecoration(
+                    hintText: 'Search for services...',
                     border: InputBorder.none,
                     prefixIcon: Icon(Icons.search, color: Colors.grey),
-                    suffixIcon: Icon(Icons.filter_list, color: Colors.purple),
                   ),
                 ),
               ),
@@ -73,7 +74,6 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 26),
 
               // Special Offers Carousel
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -118,106 +118,59 @@ class HomeScreen extends StatelessWidget {
                     titleColor: Colors.blue,
                     subtitleColor: Colors.blue.shade700,
                   ),
-                  SpecialOfferCard(
-                    title: "88% Today's Special!",
-                    subtitle:
-                        "Get discount for every order, only valid for today",
-                    backgroundColor: const Color.fromARGB(255, 253, 223, 237),
-                    titleColor: Colors.purple,
-                    subtitleColor: Colors.purple.shade800,
-                  ),
                 ],
               ),
 
               const SizedBox(height: 22),
-              // Services Section
+
+              // Most Popular Services Section
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Services',
+                  const Text('Most Popular Services',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   TextButton(
-                    onPressed: () {
-                      Get.to(() => AllServicesScreen());
-                    },
-                    child: const Text('See All',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.purple,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              GridView.count(
-                crossAxisCount: 4,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: [
-                  buildServiceItem(Icons.cleaning_services, 'Cleaning'),
-                  buildServiceItem(Icons.build, 'Repairing'),
-                  buildServiceItem(Icons.brush, 'Painting'),
-                  buildServiceItem(Icons.local_laundry_service, 'Laundry'),
-                  buildServiceItem(Icons.kitchen, 'Appliance'),
-                  buildServiceItem(Icons.plumbing, 'Plumbing'),
-                  buildServiceItem(Icons.local_shipping, 'Shifting'),
-                  buildServiceItem(Icons.more_horiz, 'More'),
-                ],
-              ),
-              const SizedBox(height: 16),
-              // Most Popular Services Section
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Most Popular Services',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text('See All',
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.purple,
-                          fontWeight: FontWeight.bold)),
+                      onPressed: () {
+                        Get.toNamed("/popularServicesScreen");
+                      },
+                      child: const Text('See All',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold))),
                 ],
               ),
               const SizedBox(height: 10),
-              _buildPopularServiceItem('House Cleaning', 25, 4.8, 8289,
-                  'assets/images/image_home1.PNG'),
-              const SizedBox(height: 6),
-              _buildPopularServiceItem('Floor Cleaning', 20, 4.5, 6453,
-                  'assets/images/image_home2.PNG'),
-              const SizedBox(height: 6),
-              _buildPopularServiceItem('Washing Clothes', 22, 4.7, 7038,
-                  'assets/images/image_home3.PNG'),
-              const SizedBox(height: 6),
-              _buildPopularServiceItem('Bathroom Cleaning', 24, 4.6, 5921,
-                  'assets/images/image_home4.PNG'),
-              const SizedBox(height: 6),
+
+              Obx(() => Column(
+                    children: bookmarkController.services.map((service) {
+                      return ServiceItem(
+                        title: service['name'].toString(),
+                        price: service['price'].toString(),
+                        rating: double.tryParse(service['rating'].toString()) ??
+                            0.0,
+                        reviews: service['reviews'].toString(),
+                        image: service['image'].toString(),
+                        isBookmarked: bookmarkController.bookmarkedServices
+                            .contains(service['id']),
+                        onBookmarkPressed: () {
+                          if (bookmarkController.bookmarkedServices
+                              .contains(service['id'])) {
+                            bookmarkController
+                                .removeService(service['id'] as int);
+                          } else {
+                            bookmarkController
+                                .addBookmark(service['id'] as int);
+                          }
+                        },
+                      );
+                    }).toList(),
+                  )),
+              const SizedBox(height: 16),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildPopularServiceItem(
-      String title, int price, double rating, int reviews, String imageUrl) {
-    return Card(
-      color: Colors.purple[50],
-      child: ListTile(
-        leading: Image.asset(imageUrl, width: 40),
-        title: Text(title),
-        subtitle: Row(
-          children: [
-            Text('\$$price'),
-            const SizedBox(width: 8),
-            const Icon(Icons.star, color: Colors.yellow, size: 16),
-            Text('$rating | $reviews reviews'),
-          ],
-        ),
-        trailing: const Icon(Icons.bookmark_border),
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class BookmarkController extends GetxController {
   var selectedCategory = 'All'.obs;
 
@@ -42,15 +44,47 @@ class BookmarkController extends GetxController {
   // List of bookmarked service IDs
   var bookmarkedServices = <int>[].obs;
 
-  // Method to remove service by ID
-  void removeService(int id) {
-    services.removeWhere((service) => service['id'] == id);
-    bookmarkedServices
-        .remove(id); // Remove the service ID from the bookmarked list
+  @override
+  void onInit() {
+    super.onInit();
+    loadBookmarks(); // تحميل العلامات المحفوظة
   }
 
-  // Method to add a service to bookmarks
-  void addBookmark(int serviceId) {
-    bookmarkedServices.add(serviceId);
+  // تحميل العلامات المحفوظة من SharedPreferences
+  void loadBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedBookmarks = prefs.getStringList('bookmarks');
+    if (savedBookmarks != null) {
+      bookmarkedServices.assignAll(savedBookmarks.map(int.parse).toList());
+    }
+  }
+
+
+
+
+
+
+
+
+
+  // إضافة إلى bookmarks
+  void addBookmark(int serviceId) async {
+    if (!bookmarkedServices.contains(serviceId)) {
+      bookmarkedServices.add(serviceId);
+      saveBookmarks();
+    }
+  }
+
+  // إزالة من bookmarks
+  void removeService(int id) async {
+    bookmarkedServices.remove(id); // إزالة العلامة فقط
+    saveBookmarks();
+  }
+
+  // حفظ العلامات في SharedPreferences
+  void saveBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(
+        'bookmarks', bookmarkedServices.map((e) => e.toString()).toList());
   }
 }

@@ -7,7 +7,7 @@
  import 'package:flutter/material.dart';
 
 Widget _buildNotFound() {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(Icons.search_off, size: 80, color: Colors.grey),

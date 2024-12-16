@@ -1,61 +1,76 @@
+
+
+
+import 'package:final_project/ui/widget/service_item.dart';
+import 'package:final_project/view_models/bookmarke_controller.dart';
 import 'package:final_project/view_models/search_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SearchPage extends StatelessWidget {
-  final SearchControllerrr searchController = Get.find<SearchControllerrr>();
-
+class SearchScreen extends StatelessWidget {
+  final TextEditingController searchController = TextEditingController();
+  final searchControllerInstance = Get.put(SearchControllerrr()); // Assuming GetX is used
+  final BookmarkController bookmarkController = Get.put(BookmarkController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: TextField(
-          autofocus: true,
-          onChanged: (query) => searchController.searchItems(query),
-          decoration: InputDecoration(
-            hintText: 'Search...',
-            border: InputBorder.none,
-            prefixIcon: Icon(Icons.search, color: Colors.grey),
-            suffixIcon: IconButton(
-              icon: Icon(Icons.clear, color: Colors.grey),
-              onPressed: () {
-                searchController.clearSearch();
+        title: const Text('Search Services'),
+      ),
+      body: Column(
+        children: [
+          // Search Bar
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                hintText: 'Search for a service...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+              ),
+              onChanged: (query) {
+                searchControllerInstance.filteredServices();
               },
             ),
           ),
-        ),
-      ),
-      body: Obx(() {
-        if (searchController.searchResults.isEmpty &&
-            searchController.searchText.isNotEmpty) {
-          return _buildNotFound();
-        } else {
-          return ListView.builder(
-            itemCount: searchController.searchResults.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(searchController.searchResults[index]),
-                leading: Icon(Icons.search),
-              );
-            },
-          );
-        }
-      }),
-    );
-  }
+          // Filtered Services List
+          Expanded(
+            child: Obx(() {
+              final filteredServices =
+                  searchControllerInstance.filteredServices;
 
-  Widget _buildNotFound() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.search_off, size: 80, color: Colors.grey),
-          SizedBox(height: 10),
-          Text("No Results Found",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          SizedBox(height: 5),
-          Text("Please try another search."),
+              if (filteredServices.isEmpty) {
+                return const Center(child: Text('No results found.'));
+              }
+
+              return ListView.builder(
+                itemCount: filteredServices.length,
+                itemBuilder: (context, index) {
+                  final service = filteredServices[index];
+                  return ServiceItem(
+                    title: service['name'].toString(),
+                    price: service['price'].toString(),
+                    rating: double.tryParse(service['rating'].toString()) ?? 0.0,
+                    reviews: service['reviews'].toString(),
+                    image: service['image'].toString(),
+                    isBookmarked: bookmarkController.bookmarkedServices
+                        .contains(service['id']),
+                    onBookmarkPressed: () {
+                      if (bookmarkController.bookmarkedServices
+                          .contains(service['id'])) {
+                        bookmarkController.removeService(service['id']);
+                      } else {
+                        bookmarkController.addBookmark(service['id']);
+                      }
+                    },
+                  );
+                },
+              );
+            }),
+          ),
         ],
       ),
     );

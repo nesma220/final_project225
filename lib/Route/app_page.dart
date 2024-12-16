@@ -10,6 +10,7 @@ import 'package:final_project/ui/screens/home_page.dart';
 import 'package:final_project/ui/screens/login_screen_ready.dart';
 import 'package:final_project/ui/screens/notification_screen.dart';
 import 'package:final_project/ui/screens/onbording_screen.dart';
+import 'package:final_project/ui/screens/popular_services_screen.dart';
 import 'package:final_project/ui/screens/profile_screen.dart';
 import 'package:final_project/ui/screens/search_page.dart';
 import 'package:final_project/ui/screens/signIn.dart';
@@ -31,10 +32,13 @@ List<GetPage> appPage = [
   GetPage(name: AppRoute.signInScreen, page: () => SignInScreen()),
   GetPage(name: AppRoute.splashScreen, page: () => const SplashScreen()),
   GetPage(name: AppRoute.verificationScreen, page: () => VerificationScreen()),
-  GetPage(name: AppRoute.bookmarkScreen, page: () =>  MyBookmarkScreen()),
+  GetPage(name: AppRoute.bookmarkScreen, page: () => MyBookmarkScreen()),
   GetPage(name: AppRoute.inboxScreen, page: () => const InboxScreen()),
   GetPage(name: AppRoute.calendarToday, page: () => const CalendarToday()),
   GetPage(name: AppRoute.allServicesScreen, page: () => AllServicesScreen()),
-    GetPage(name: AppRoute.notificationScreen, page: () => NotificationScreen()),
-     GetPage(name: AppRoute.searchScreen, page: () => SearchPage()),
+  GetPage(name: AppRoute.notificationScreen, page: () => NotificationScreen()),
+  GetPage(name: AppRoute.searchScreen, page: () => SearchScreen()),
+  GetPage(
+      name: AppRoute.popularServicesScreen,
+      page: () => PopularServicesScreen()),
 ];
