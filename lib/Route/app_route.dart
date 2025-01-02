@@ -17,4 +17,5 @@ class AppRoute {
   static const String notificationScreen = "/notificationScreen";
   static const String searchScreen = "/searchScreen";
   static const String popularServicesScreen = "/popularServicesScreen";
+  
 }

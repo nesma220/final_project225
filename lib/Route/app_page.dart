@@ -13,12 +13,14 @@ import 'package:final_project/ui/screens/onbording_screen.dart';
 import 'package:final_project/ui/screens/popular_services_screen.dart';
 import 'package:final_project/ui/screens/profile_screen.dart';
 import 'package:final_project/ui/screens/search_page.dart';
+import 'package:final_project/ui/screens/cleaning_item_page.dart';
 import 'package:final_project/ui/screens/signIn.dart';
 import 'package:final_project/ui/screens/splash_screen.dart';
 import 'package:final_project/ui/screens/verification_screen.dart';
 import 'package:get/get.dart';
 
 List<GetPage> appPage = [
+  
   GetPage(name: AppRoute.home, page: () => HomePage()),
   GetPage(name: AppRoute.createAcountScreen, page: () => CreateAccountScreen()),
   GetPage(

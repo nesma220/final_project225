@@ -13,6 +13,13 @@ class HomeScreen extends StatelessWidget {
   final SearchControllerrr searchController = Get.put(SearchControllerrr());
   final BookmarkController bookmarkController = Get.put(BookmarkController());
 
+final List<Map<String, dynamic>> services = [
+  {"icon": Icons.cleaning_services, "name": "Cleaning"},
+  {"icon": Icons.handyman, "name": "Repairing"},
+  {"icon": Icons.brush, "name": "Painting"},
+  {"icon": Icons.plumbing, "name": "Plumbing"},
+];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,27 +79,6 @@ class HomeScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 26),
-
-              // Special Offers Carousel
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Special Offers',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  TextButton(
-                    onPressed: () {
-                      Get.toNamed("/");
-                    },
-                    child: const Text('See More..',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.purple,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ],
-              ),
-
               const SizedBox(height: 10),
               CarouselSlider(
                 options: CarouselOptions(
@@ -122,6 +108,42 @@ class HomeScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 22),
+
+                  // Special Offers Carousel
+            
+              const SizedBox(height: 26),
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    const Text('Services',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+    TextButton(
+      onPressed: () {
+        Get.toNamed("/allServicesScreen");
+      },
+      child: const Text('See All',
+          style: TextStyle(
+              fontSize: 14,
+              color: Colors.purple,
+              fontWeight: FontWeight.bold)),
+    ),
+  ],
+),
+const SizedBox(height: 16),
+GridView.builder(
+  shrinkWrap: true, 
+  physics: const NeverScrollableScrollPhysics(), 
+  itemCount: services.length,
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 4,
+    crossAxisSpacing: 8,
+    mainAxisSpacing: 8,
+  ),
+  itemBuilder: (context, index) {
+    final service = services[index];
+    return buildServiceItem(service['icon'], service['name']);
+  },
+),
 
               // Most Popular Services Section
               Row(

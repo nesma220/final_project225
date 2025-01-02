@@ -11,6 +11,8 @@ class SearchScreen extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
   final searchControllerInstance = Get.put(SearchControllerrr()); // Assuming GetX is used
   final BookmarkController bookmarkController = Get.put(BookmarkController());
+
+  SearchScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

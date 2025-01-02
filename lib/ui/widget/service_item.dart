@@ -10,7 +10,7 @@ class ServiceItem extends StatelessWidget {
   final VoidCallback onBookmarkPressed;
   final VoidCallback?  ontap;
   const ServiceItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.price,
     required this.rating,
@@ -19,7 +19,7 @@ class ServiceItem extends StatelessWidget {
     required this.isBookmarked,
    required  this.onBookmarkPressed ,
          this.ontap,
-  }) : super(key: key);
+  });
 
 
   @override

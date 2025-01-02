@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -73,17 +72,18 @@ class FillProfileScreen extends StatelessWidget {
               }),
               const SizedBox(height: 30),
 
-              // الحقول النصية
-              CustomTextField(
-                hintText: "Full Name",
-                icon: null,
-                type: TextInputType.name,
-                onchanged: controller.updateFullName,
+             CustomTextField(
+                    hintText: "Full Name",
+                    icon: Icons.person_outline,
+                    type: TextInputType.name,
+                    onchanged: controller.updateFullName,
+              
+            
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: "Nickname",
-                icon: null,
+                icon: Icons.person_outline,
                 type: TextInputType.name,
                 onchanged: controller.updateNickname,
               ),

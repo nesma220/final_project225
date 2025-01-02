@@ -41,16 +41,14 @@ class BookmarkController extends GetxController {
     },
   ].obs;
 
-  // List of bookmarked service IDs
   var bookmarkedServices = <int>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadBookmarks(); // تحميل العلامات المحفوظة
-  }
+@override
+void onInit() {
+  super.onInit();
+  loadBookmarks(); 
+}
 
-  // تحميل العلامات المحفوظة من SharedPreferences
   void loadBookmarks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? savedBookmarks = prefs.getStringList('bookmarks');
