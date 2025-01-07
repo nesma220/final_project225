@@ -1,3 +1,10 @@
+import 'package:final_project/ui/screens/Cleaning_service_screen.dart';
+import 'package:final_project/ui/screens/Laundry_service_screen.dart';
+import 'package:final_project/ui/screens/Painting_service_screen.dart';
+import 'package:final_project/ui/screens/Repairing_service_screen.dart';
+import 'package:final_project/ui/screens/appliance_service_screen.dart';
+import 'package:final_project/ui/screens/plumbing_servise_screen.dart';
+import 'package:final_project/ui/screens/shifting_service_screen.dart';
 import 'package:final_project/ui/widget/build_services.dart';
 import 'package:final_project/view_models/allservices_controller.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +12,9 @@ import 'package:get/get.dart';
 
 class AllServicesScreen extends StatelessWidget {
   final AllServicesController controller = Get.put(AllServicesController());
+  String? serviceName = "";
 
-  AllServicesScreen({super.key});
+  AllServicesScreen({super.key,  this.serviceName});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,30 @@ class AllServicesScreen extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final service = controller.services[index];
-            return buildServiceItem(service['icon'], service['name']);
+            return GestureDetector(
+  onTap: () {
+    var service = controller.services[index];  // تأكد من أنك تحصل على بيانات الخدمة
+    if (service['name'] == 'Cleaning') {
+      Get.to(() => CleaningPage(serviceName: service['name'], serviceData: service));
+    } else if (service['name'] == 'Repairing') {
+      Get.to(() => RepairingPage(serviceName: service['name'], serviceData: service));
+    } else if (service['name'] == 'Painting') {
+      Get.to(() => PaintingPage(serviceName: service['name'], serviceData: service));
+    } else if (service['name'] == 'Laundry') {
+      Get.to(() => LaundryPage(serviceName: service['name'], serviceData: service));
+    } else if (service['name'] == 'Appliance') {
+      Get.to(() => AppliancePage(serviceName: service['name'], serviceData: service));
+    } else if (service['name'] == 'Plumbing') {
+      Get.to(() => PlumbingPage(serviceName: service['name'], serviceData: service));
+    } else if (service['name'] == 'Shifting') {
+      Get.to(() => ShiftingPage(serviceName: service['name'], serviceData: service));
+    } else {
+      serviceName ??= 'Default Service';
+    }
+  },
+  child: buildServiceItem(service['icon'], service['name']),
+);
+
           },
         ),
       ),

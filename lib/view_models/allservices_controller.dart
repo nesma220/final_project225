@@ -20,3 +20,12 @@ class AllServicesController extends GetxController {
     {'name': "Men's Sal.", 'icon': Icons.cut},
   ];
 }
+
+
+   // 'Cleaning',
+    // 'Repairing',
+    // 'Painting',
+    // 'Laundry',
+    // 'Appliance',
+    // 'Plumbing',
+    // 'Shifting'

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ServiceItem extends StatelessWidget {
-   final String title;
+  final String title;
   final String price;
   final double rating;
   final String reviews;
   final String image;
   final bool isBookmarked;
   final VoidCallback onBookmarkPressed;
-  final VoidCallback?  ontap;
+  final VoidCallback? ontap;
   const ServiceItem({
     super.key,
     required this.title,
@@ -17,29 +17,29 @@ class ServiceItem extends StatelessWidget {
     required this.reviews,
     required this.image,
     required this.isBookmarked,
-   required  this.onBookmarkPressed ,
-         this.ontap,
+    required this.onBookmarkPressed,
+    this.ontap,
   });
-
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-   onTap: ontap,
+      onTap: ontap,
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               // الصورة
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(image, width: 80, height: 80, fit: BoxFit.cover),
+                child: Image.asset(image,
+                    width: 80, height: 80, fit: BoxFit.cover),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 10),
               // النصوص
               Expanded(
                 child: Column(
@@ -54,13 +54,21 @@ class ServiceItem extends StatelessWidget {
                         style: const TextStyle(
                             color: Colors.purple, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.yellow, size: 16),
-                        Text('$rating | $reviews reviews',
-                            style: const TextStyle(color: Colors.grey)),
-                      ],
-                    ),
+                  Row(
+  children: [
+    const Icon(Icons.star, color: Colors.yellow, size: 16),
+    Expanded(
+      child: Text(
+        '$rating | $reviews reviews',
+        style: const TextStyle(
+          color: Colors.grey,
+        ),
+        overflow: TextOverflow.ellipsis, // إضافة لتجنب overflow النص
+      ),
+    ),
+  ],
+),
+
                   ],
                 ),
               ),

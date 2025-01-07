@@ -1,4 +1,5 @@
 import 'package:final_project/Route/app_route.dart';
+import 'package:final_project/ui/screens/HomeScreen.dart';
 import 'package:final_project/ui/screens/Inbox_screen.dart';
 import 'package:final_project/ui/screens/allservices_screen%20.dart';
 import 'package:final_project/ui/screens/bookmark_screen.dart';
@@ -13,7 +14,6 @@ import 'package:final_project/ui/screens/onbording_screen.dart';
 import 'package:final_project/ui/screens/popular_services_screen.dart';
 import 'package:final_project/ui/screens/profile_screen.dart';
 import 'package:final_project/ui/screens/search_page.dart';
-import 'package:final_project/ui/screens/cleaning_item_page.dart';
 import 'package:final_project/ui/screens/signIn.dart';
 import 'package:final_project/ui/screens/splash_screen.dart';
 import 'package:final_project/ui/screens/verification_screen.dart';
@@ -40,7 +40,8 @@ List<GetPage> appPage = [
   GetPage(name: AppRoute.allServicesScreen, page: () => AllServicesScreen()),
   GetPage(name: AppRoute.notificationScreen, page: () => NotificationScreen()),
   GetPage(name: AppRoute.searchScreen, page: () => SearchScreen()),
-  GetPage(
-      name: AppRoute.popularServicesScreen,
+  GetPage(name: AppRoute.homeScreen, page: () => HomeScreen()),
+
+  GetPage(name: AppRoute.popularServicesScreen,
       page: () => PopularServicesScreen()),
 ];

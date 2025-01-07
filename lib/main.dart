@@ -1,6 +1,5 @@
 import 'package:final_project/Route/app_page.dart';
 import 'package:final_project/Route/app_route.dart';
-import 'package:final_project/ui/screens/HomeScreen.dart';
 import 'package:final_project/view_models/bookmarke_controller.dart';
 import 'package:final_project/view_models/search_controller.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  GetMaterialApp(
       debugShowCheckedModeBanner: false,
-     initialRoute: AppRoute.home,
-     getPages: appPage,
-    // home: HomeScreen(),
+ initialRoute: AppRoute.home,
+  getPages: appPage,
+  //home: HomeScreen(),
     );
   }
 }

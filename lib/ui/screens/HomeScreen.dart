@@ -8,17 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+
 
   final SearchControllerrr searchController = Get.put(SearchControllerrr());
   final BookmarkController bookmarkController = Get.put(BookmarkController());
 
-final List<Map<String, dynamic>> services = [
-  {"icon": Icons.cleaning_services, "name": "Cleaning"},
-  {"icon": Icons.handyman, "name": "Repairing"},
-  {"icon": Icons.brush, "name": "Painting"},
-  {"icon": Icons.plumbing, "name": "Plumbing"},
-];
+  final List<Map<String, dynamic>> services = [
+    {"icon": Icons.cleaning_services, "name": "Cleaning"},
+    {"icon": Icons.handyman, "name": "Repairing"},
+    {"icon": Icons.brush, "name": "Painting"},
+    {"icon": Icons.plumbing, "name": "Plumbing"},
+    {'icon': Icons.plumbing,'name': 'Plumbing'},
+    { 'icon': Icons.local_shipping,'name': 'Shifting'},
+    {'icon': Icons.face_retouching_natural,'name': 'Beauty'},
+    { 'icon': Icons.ac_unit,'name': 'AC Repa.'},
+  ];
+
+   HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +84,7 @@ final List<Map<String, dynamic>> services = [
                 ),
               ),
 
-              const SizedBox(height: 26),
+           //   const SizedBox(height: 26),
               const SizedBox(height: 10),
               CarouselSlider(
                 options: CarouselOptions(
@@ -109,41 +115,42 @@ final List<Map<String, dynamic>> services = [
 
               const SizedBox(height: 22),
 
-                  // Special Offers Carousel
-            
+              // Special Offers Carousel
+
               const SizedBox(height: 26),
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    const Text('Services',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-    TextButton(
-      onPressed: () {
-        Get.toNamed("/allServicesScreen");
-      },
-      child: const Text('See All',
-          style: TextStyle(
-              fontSize: 14,
-              color: Colors.purple,
-              fontWeight: FontWeight.bold)),
-    ),
-  ],
-),
-const SizedBox(height: 16),
-GridView.builder(
-  shrinkWrap: true, 
-  physics: const NeverScrollableScrollPhysics(), 
-  itemCount: services.length,
-  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 4,
-    crossAxisSpacing: 8,
-    mainAxisSpacing: 8,
-  ),
-  itemBuilder: (context, index) {
-    final service = services[index];
-    return buildServiceItem(service['icon'], service['name']);
-  },
-),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Services',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  TextButton(
+                    onPressed: () {
+                      Get.toNamed("/allServicesScreen");
+                    },
+                    child: const Text('See All',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.purple,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: services.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemBuilder: (context, index) {
+                  final service = services[index];
+                  return buildServiceItem(service['icon'], service['name']);
+                },
+              ),
 
               // Most Popular Services Section
               Row(
@@ -164,9 +171,12 @@ GridView.builder(
                 ],
               ),
               const SizedBox(height: 10),
-
               Obx(() => Column(
                     children: bookmarkController.services.map((service) {
+                      if (service['name'] == null || service['price'] == null) {
+                        debugPrint('Invalid service data: $service');
+                        return const SizedBox(); // أو عرض رسالة خطأ
+                      }
                       return ServiceItem(
                         title: service['name'].toString(),
                         price: service['price'].toString(),
@@ -189,6 +199,7 @@ GridView.builder(
                       );
                     }).toList(),
                   )),
+
               const SizedBox(height: 16),
             ],
           ),

@@ -12,10 +12,10 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final List<Widget> _screens = [
-     HomeScreen(), // شاشة الرئيسية
-     MyBookmarkScreen(), // شاشة الحجوزات
-    const InboxScreen(), // شاشة الرسائل
-    const FillProfileScreen(), // شاشة الملف الشخصي
+     HomeScreen(),
+     MyBookmarkScreen(),
+    const InboxScreen(), 
+    const FillProfileScreen(), 
   ];
 
   @override
