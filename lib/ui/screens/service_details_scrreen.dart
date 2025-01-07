@@ -1,3 +1,4 @@
+import 'package:final_project/ui/screens/book_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,81 +9,68 @@ class ServiceDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(serviceData['image']);
+    print(serviceData['name']);
+    print(serviceData['description']);
+    print(serviceData['gallery']);
+    print(serviceData['ratingBreakdown']);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.bookmark_outline, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
+        title: Text(serviceData['name'] ?? 'Service Name'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // صورة الخدمة
             Center(
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.asset(
-                      serviceData['image'] ?? '',
-                      height: 200,
-                      width: double.infinity,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    serviceData['name'] ?? 'Service Name',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.location_on, color: Colors.grey),
-                      Text(
-                        serviceData['location'] ?? 'Unknown Location',
-                        style: const TextStyle(color: Colors.grey),
+              child: serviceData['image'] != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        serviceData['image'],
+                        height: 280,
+                        width: double.infinity,
+                        fit: BoxFit.fill,
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    )
+                  : const Icon(Icons.image_not_supported, size: 100),
             ),
             const SizedBox(height: 16),
-            Text(
-              '\$${serviceData['price'] ?? '0'}',
-              style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.purple),
-            ),
-            const SizedBox(height: 16),
+
+            // وصف الخدمة
             const Text(
-              'About me',
+              'About Service:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
               serviceData['description'] ?? 'No description available.',
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
+            // اسم الخدمة
+            Text(
+              serviceData['name'] ?? 'Unnamed Service',
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+
+            // السعر
+            Text(
+              'Price: \$${serviceData['price'] ?? 'N/A'}',
+              style: const TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+
+            const SizedBox(height: 32),
+            // معرض الصور
             const Text(
-              'Photos & Videos',
+              'Photos & Videos:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+
             const SizedBox(height: 8),
             GridView.builder(
               shrinkWrap: true,
@@ -92,7 +80,8 @@ class ServiceDetailsPage extends StatelessWidget {
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
               ),
-              itemCount: (serviceData['gallery'] as List<dynamic>? ?? []).length,
+              itemCount:
+                  (serviceData['gallery'] as List<dynamic>? ?? []).length,
               itemBuilder: (context, index) {
                 final serviceGallery =
                     serviceData['gallery'] as List<dynamic>? ?? [];
@@ -115,8 +104,18 @@ class ServiceDetailsPage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 16),
+
+            // تقييم النجوم
             const Text(
-              'Reviews',
+              'Rating Breakdown:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            _buildRatingBreakdown(),
+            const SizedBox(height: 16),
+            // المراجعات
+            const Text(
+              'Reviews:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
@@ -124,8 +123,6 @@ class ServiceDetailsPage extends StatelessWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-               
-             
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {},
@@ -141,11 +138,16 @@ class ServiceDetailsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-   const SizedBox(width: 16),
-
-                 Expanded(
+                const SizedBox(width: 16),
+                Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                     final serviceName = serviceData['name'];
+                        Get.to(
+         DynamicServicePage(),
+        arguments: {'name': serviceName}, // أرسل اسم الخدمة
+      );
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: Colors.purple,
@@ -155,8 +157,7 @@ class ServiceDetailsPage extends StatelessWidget {
                     ),
                     child: const Text(
                       'Book Now',
-                      
-                      style: TextStyle(fontSize: 18,color: Colors.white),
+                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
                 ),
@@ -165,6 +166,34 @@ class ServiceDetailsPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildRatingBreakdown() {
+    final ratings = serviceData['ratingBreakdown'] as Map<String, dynamic>? ??
+        {}; // التحقق من وجود القيمة
+    final reviewsCount =
+        serviceData['reviews'] as int? ?? 0; // التحقق من عدد المراجعات
+    return Column(
+      children: ratings.entries.map((entry) {
+        final star = entry.key;
+        final count = entry.value as int? ?? 0;
+        return Row(
+          children: [
+            Text('$star stars:'),
+            Expanded(
+              child: LinearProgressIndicator(
+                value: reviewsCount > 0
+                    ? count / reviewsCount
+                    : 0, // التحقق من عدم وجود قيمة صفرية
+                backgroundColor: Colors.grey[300],
+                color: Colors.amber,
+              ),
+            ),
+            Text(' $count'),
+          ],
+        );
+      }).toList(),
     );
   }
 

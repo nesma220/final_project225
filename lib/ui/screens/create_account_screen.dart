@@ -1,5 +1,6 @@
 import 'package:final_project/view_models/create_account_controller.dart';
 import 'package:final_project/ui/screens/login_screen_ready.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +8,11 @@ class CreateAccountScreen extends StatelessWidget {
   final CreateAccountController controller = Get.put(CreateAccountController());
 
   CreateAccountScreen({super.key});
+
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +54,7 @@ class CreateAccountScreen extends StatelessWidget {
               const SizedBox(height: 20),
               // Name TextField
               TextField(
+                controller: userNameController,
                 onChanged: (value) {
                   // controller.name.value = value;
                 },
@@ -65,6 +72,7 @@ class CreateAccountScreen extends StatelessWidget {
               const SizedBox(height: 20),
               // Phone TextField
               TextField(
+                controller: phoneController,
                 onChanged: (value) {
                   // controller.phoneNumber.value = value;
                 },
@@ -83,6 +91,7 @@ class CreateAccountScreen extends StatelessWidget {
               const SizedBox(height: 20),
               // Email TextField
               TextField(
+                controller: emailController,
                 onChanged: (value) {
                   controller.email.value = value;
                 },
@@ -100,71 +109,86 @@ class CreateAccountScreen extends StatelessWidget {
               const SizedBox(height: 20),
               // Password TextField
               Obx(() => TextField(
-                obscureText: !controller.isPasswordVisible.value,
-                onChanged: (value) {
-                  controller.password.value = value;
-                },
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: IconButton(
-                    icon: Icon(controller.isPasswordVisible.value
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined),
-                    onPressed: controller.togglePasswordVisibility,
-                  ),
-                  hintText: "Password",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                ),
-              )),
+                    controller: passwordController,
+                    obscureText: !controller.isPasswordVisible.value,
+                    onChanged: (value) {
+                      controller.password.value = value;
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(controller.isPasswordVisible.value
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined),
+                        onPressed: controller.togglePasswordVisibility,
+                      ),
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                    ),
+                  )),
               const SizedBox(height: 20),
               // Remember me checkbox
               Obx(() => Row(
-                children: [
-                  Checkbox(
-                    value: controller.rememberMe.value,
-                    onChanged: (value) {
-                      controller.toggleRememberMe(value);
-                    },
-                    activeColor: Colors.purple,
-                  ),
-                  const Text(
-                    "Remember me",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              )),
+                    children: [
+                      Checkbox(
+                        value: controller.rememberMe.value,
+                        onChanged: (value) {
+                          controller.toggleRememberMe(value);
+                        },
+                        activeColor: Colors.purple,
+                      ),
+                      const Text(
+                        "Remember me",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  )),
               const SizedBox(height: 20),
               // Sign up button
               SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    controller.createAccount();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final credential = await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                        );
+                        Get.offNamed("/home");
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'weak-password') {
+                          Get.snackbar(
+                              'Error', 'The password provided is too weak.');
+                        } else if (e.code == 'email-already-in-use') {
+                          Get.snackbar('Error',
+                              'The account already exists for that email.');
+                        }
+                      } catch (e) {
+                        Get.snackbar('Error', e.toString());
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF7210FF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    backgroundColor: const Color(0xFF7210FF),
-                  ),
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                    child: const Text(
+                      "Sign up",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+                  )),
               const SizedBox(height: 20),
               // "Or continue with" section
               const Row(
@@ -183,11 +207,12 @@ class CreateAccountScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SocialMediaButton(icon: Icons.facebook, color: Colors.blue),
-                  SocialMediaButton(icon: Icons.g_mobiledata, color: Colors.red),
+                  SocialMediaButton(
+                      icon: Icons.g_mobiledata, color: Colors.red),
                   SocialMediaButton(icon: Icons.apple, color: Colors.black),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               // Already have an account
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

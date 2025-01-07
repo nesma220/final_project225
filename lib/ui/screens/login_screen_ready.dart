@@ -1,7 +1,8 @@
 import 'package:final_project/ui/screens/forgot_password_screen.dart';
+import 'package:final_project/ui/screens/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../view_models/login_controller.dart';
 import 'create_account_screen.dart';
 
@@ -20,8 +21,6 @@ class LoginScreenReady extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // const SizedBox(height: 50),
-              // Back arrow icon
               Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
@@ -32,7 +31,6 @@ class LoginScreenReady extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // Title
               const Text(
                 "Login to your Account",
                 style: TextStyle(
@@ -42,7 +40,6 @@ class LoginScreenReady extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // Subtitle
               const Text(
                 "Welcome back! Please login to continue.",
                 style: TextStyle(
@@ -51,7 +48,6 @@ class LoginScreenReady extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              // Email TextField
               TextField(
                 onChanged: (value) {
                   controller.emaillogin.value = value;
@@ -67,7 +63,6 @@ class LoginScreenReady extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // Password TextField
               Obx(() => TextField(
                     obscureText: !controller.isPasswordVisiblelogin.value,
                     onChanged: (value) {
@@ -93,7 +88,6 @@ class LoginScreenReady extends StatelessWidget {
                     ),
                   )),
               const SizedBox(height: 20),
-              // Remember me and Forgot password
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -109,28 +103,48 @@ class LoginScreenReady extends StatelessWidget {
                           const Text("Remember me"),
                         ],
                       )),
-                  GestureDetector(
-                      onTap: () {},
-                      child: TextButton(
-                        onPressed: () {
-                          Get.to(ForgotPasswordScreen());
-                        },
-                        child: const Text(
-                          "Forgot password?",
-                          style: TextStyle(
-                            color: Color(0xFF7210FF),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )),
+                  TextButton(
+                    onPressed: () => Get.to(() => ForgotPasswordScreen()),
+                    child: const Text(
+                      "Forgot password?",
+                      style: TextStyle(
+                        color: Color(0xFF7210FF),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
-              // Sign in button
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: controller.loginAccount,
+                  onPressed: () async {
+                    try {
+                      final credential = await FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                        email: controller.emaillogin.value.trim(),
+                        password: controller.passwordlogin.value.trim(),
+                      );
+                      Get.off(() => HomePage());
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        Get.snackbar(
+                          "Error",
+                          "No user found for that email.",
+                          backgroundColor: Colors.red.withOpacity(0.5),
+                          colorText: Colors.white,
+                        );
+                      } else if (e.code == 'wrong-password') {
+                        Get.snackbar(
+                          "Error",
+                          "Wrong password provided.",
+                          backgroundColor: Colors.red.withOpacity(0.5),
+                          colorText: Colors.white,
+                        );
+                      }
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -148,7 +162,6 @@ class LoginScreenReady extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              // Divider with "or continue with"
               Row(
                 children: [
                   Expanded(child: Divider(color: Colors.grey[300])),
@@ -160,18 +173,15 @@ class LoginScreenReady extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              // Social media buttons
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SocialMediaButton(icon: Icons.facebook, color: Colors.blue),
-                  SocialMediaButton(
-                      icon: Icons.g_mobiledata, color: Colors.red),
+                  SocialMediaButton(icon: Icons.g_mobiledata, color: Colors.red),
                   SocialMediaButton(icon: Icons.apple, color: Colors.black),
                 ],
               ),
               const SizedBox(height: 30),
-              // Sign up text
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

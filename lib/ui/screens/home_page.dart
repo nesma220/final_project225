@@ -1,7 +1,7 @@
 import 'package:final_project/ui/screens/HomeScreen.dart';
 import 'package:final_project/ui/screens/Inbox_screen.dart';
 import 'package:final_project/ui/screens/bookmark_screen.dart';
-import 'package:final_project/ui/screens/profile_screen.dart';
+import 'package:final_project/ui/screens/profile_page.dart';
 import 'package:final_project/view_models/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
      HomeScreen(),
      MyBookmarkScreen(),
     const InboxScreen(), 
-    const FillProfileScreen(), 
+    const ProfileScreen(), 
   ];
 
   @override
