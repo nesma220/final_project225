@@ -1,5 +1,6 @@
 import 'package:final_project/cor/constants.dart';
 import 'package:final_project/ui/screens/login_screen_ready.dart';
+import 'package:final_project/ui/screens/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -120,7 +121,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 style: Constants.elevatedButton(),
                 child: TextButton(
                   onPressed: () {
-                    Get.to(LoginScreenReady());
+                    Get.to(SignInScreen());
                   },
                   child: Text(
                     _currentPage == _pages.length - 1 ? "Get Started" : "Next",

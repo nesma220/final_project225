@@ -1,37 +1,44 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
+  final TextEditingController? controller;
   final String hintText;
   final IconData? icon;
-  final Color? borderColor;
-  final ValueChanged<String>? onchanged;
-  final TextInputType? type;
-  final Function(dynamic value)? validator;
-  final String? initialValue;  // إضافة initialValue لتمرير القيم المحفوظة
+  final Widget? suffixIcon;
+  final bool obscureText;
+  final TextInputType keyboardType;
+  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
 
   const CustomTextField({
     super.key,
+    this.controller,
     required this.hintText,
     this.icon,
-    this.borderColor,
-    this.onchanged,
-    this.type,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.keyboardType = TextInputType.text,
     this.validator,
-    this.initialValue, // تم إضافة هذه الخاصية
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: onchanged,
-      keyboardType: type,
+    return TextFormField(
+      controller: controller,
+      
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      validator: validator,
+      onChanged: onChanged,
       decoration: InputDecoration(
+        
         hintText: hintText,
-        
         prefixIcon: icon != null ? Icon(icon) : null,
-        
-      filled: true,
+        suffixIcon: suffixIcon,
+        filled: true,
         fillColor: Colors.grey[200],
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -39,16 +46,17 @@ class CustomTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: borderColor ?? Colors.grey[200]!),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: borderColor ?? Colors.grey[200]!),
+          borderSide: BorderSide(color: Colors.blue),
         ),
       ),
     );
   }
 }
+
 
 class OtpInputField extends StatelessWidget {
   final int index;

@@ -75,29 +75,29 @@ class FillProfileScreen extends StatelessWidget {
               CustomTextField(
                 hintText: "Full Name",
                 icon: Icons.person_outline,
-                type: TextInputType.name,
-                onchanged: controller.updateFullName,
+                keyboardType: TextInputType.name,
+                onChanged: controller.updateFullName,
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: "Nickname",
                 icon: Icons.person_outline,
-                type: TextInputType.name,
-                onchanged: controller.updateNickname,
+                keyboardType: TextInputType.name,
+                onChanged: controller.updateNickname,
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: "Date of Birth",
-                type: TextInputType.datetime,
+                keyboardType: TextInputType.datetime,
                 icon: Icons.calendar_today_outlined,
-                onchanged: controller.updateDateOfBirth,
+                onChanged: controller.updateDateOfBirth,
               ),
               const SizedBox(height: 10),
               CustomTextField(
                 hintText: "Email",
                 icon: Icons.email_outlined,
-                type: TextInputType.emailAddress,
-                onchanged: controller.updateEmail,
+                keyboardType: TextInputType.emailAddress,
+                onChanged: controller.updateEmail,
               ),
               const SizedBox(height: 10),
 
@@ -123,9 +123,9 @@ class FillProfileScreen extends StatelessWidget {
                   Expanded(
                     child: CustomTextField(
                       hintText: "Phone Number",
-                      type: TextInputType.number,
+                      keyboardType: TextInputType.number,
                       icon: null,
-                      onchanged: controller.updatePhoneNumber,
+                      onChanged: controller.updatePhoneNumber,
                     ),
                   ),
                 ],
@@ -134,8 +134,8 @@ class FillProfileScreen extends StatelessWidget {
               CustomTextField(
                 hintText: "Address",
                 icon: Icons.location_on_outlined,
-                type: TextInputType.streetAddress,
-                onchanged: controller.updateAddress,
+                keyboardType: TextInputType.streetAddress,
+                onChanged: controller.updateAddress,
               ),
               const SizedBox(height: 10),
 
