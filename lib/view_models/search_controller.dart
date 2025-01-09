@@ -12,10 +12,9 @@ class SearchControllerrr extends GetxController {
   }
 
   void loadServices() {
-    // Load all services into `services` (from API, local storage, etc.)
     services.value = [
       {'id': 1, 'name': 'Cleaning', 'price': '50\$', 'rating': 4.5, 'reviews': '20', 'image': 'assets/images/house_cleaning.PNG'},
-      {'id': 2, 'name': 'Plumbing', 'price': '30\$', 'rating': 4.0, 'reviews': '10', 'image': 'assets/images/motorcycle_repairing.PNG'},
+      {'id': 2, 'name': 'Plumbing', 'price': '30\$', 'rating': 4.0, 'reviews': '10', 'image': 'assets/images/house_cleaning.PNG'},
       // More services
     ];
     filteredServices.value = services;

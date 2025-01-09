@@ -1,5 +1,4 @@
 import 'package:final_project/cor/constants.dart';
-import 'package:final_project/ui/screens/login_screen_ready.dart';
 import 'package:final_project/ui/screens/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

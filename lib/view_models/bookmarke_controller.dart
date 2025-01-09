@@ -563,10 +563,8 @@ class BookmarkController extends GetxController {
   void loadBookmarks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? savedBookmarks = prefs.getStringList('bookmarks');
-    if (savedBookmarks != null) {
-      bookmarkedServices.assignAll(savedBookmarks.map(int.parse).toList());
+    bookmarkedServices.assignAll(savedBookmarks.map(int.parse).toList());
     }
-  }
 
   void addBookmark(int serviceId) async {
     if (!bookmarkedServices.contains(serviceId)) {

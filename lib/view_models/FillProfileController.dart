@@ -42,10 +42,8 @@ class FillProfileController extends GetxController {
     address.value = prefs.getString('address') ?? '';
 
     String? imageData = prefs.getString('profileImage');
-    if (imageData != null) {
-      profileImage.value = Uint8List.fromList(imageData.codeUnits);
+    profileImage.value = Uint8List.fromList(imageData.codeUnits);
     }
-  }
 
   // تحديث الحقول
   void updateFullName(String value) => fullName.value = value;
